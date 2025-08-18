@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bank Login</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="/css/adminlogin.css">
+  <link rel="icon" type="image/svg+xml" href="/images/bank-header-logo.svg">
+
+</head>
+
+<body>
+  <button class="theme-toggle" onclick="toggleTheme()"><i class="fas fa-moon"></i></button>
+
+  <div class="login-box">
+    <h5 class="login-title d-flex align-items-center justify-content-center">
+      <!-- <img src="/images/bank-logo.svg" alt="Logo" style="height: 50px; width: 90px;" /> -->
+      <span class="mt-1">OTP Setting for Users</span>
+    </h5>
+    <!-- <h4 class="login-title">Bank Login</h4> -->
+
+    <!-- Alert success/failure div -->
+    <div id="formAlert" class="alert alert-dismissible fade d-none p-3" role="alert" style="background-color: aqua;">
+      <span id="alertMessage"></span>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+
+    <!-- <form id="updateForm" action="/admin/register-user" method="POST" novalidate> -->
+    <form id="setOtpForm" action="<%= config.siteUrl %>/admin/set-otp" method="POST">
+      <div class="mb-3">
+        <div class="input-group">
+          <span class="input-group-text"><i class="fas fa-user"></i></span>
+          <select class="form-select" id="user" name="user" required>
+            <option selected disabled value="">Choose user to update</option>
+            <% users.forEach(user=> { %>
+              <option value="<%= user._id %>">
+                <%= user.fullName %>
+              </option>
+              <% }) %>
+          </select>
+        </div>
+        <div class="invalid-feedback">Please user to update.</div>
+      </div>
+
+      <div class="mb-3">
+        <div class="input-group">
+        <span class="input-group-text"><i class="fas fa-toggle-on text-success"></i></span>
+        <select class="form-select" name="enableDisableOtp">
+          <option selected disabled value="">Choose enable/disable otp</option>
+          <option value="enable">Enable</option>
+          <option value="disable">Disable</option>
+        </select>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <div class="input-group">
+        <span class="input-group-text"><i class="fas fa-exchange-alt"></i></span>
+        <select class="form-select" name="transactionType">
+          <option selected disabled value="">Choose transaction type</option>
+          <option value="deposit">Deposit</option>
+          <option value="transfer">Transfer</option>
+          <option value="withdrawal">Withdrawal</option>
+        </select>
+        </div>
+      </div>
+
+
+      <div class="mb-3">
+        <div class="input-group">
+        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+        <select class="form-select" name="otpLevel">
+          <!-- <option value="0">0 - No OTP Required</option> -->
+          <option selected disabled value="">Choose # of otps required</option>
+          <option value="1">1 - OTP Required Once</option>
+          <option value="multiple">Custom - Multiple Checkpoints</option>
+        </select>
+        </div>
+      </div>
+     
+      <div class="mb-3">
+        <!-- <label for="checkpoints" class="form-label">Custom Checkpoints (%)</label> -->
+        <div class="input-group">
+        <span class="input-group-text"><i class="fas fa-signal"></i></span>
+        <input type="text" class="form-control" id="checkpoints" name="checkpoints" placeholder="Checkpoint EX. 40,75,90">
+        <small class="text-muted text-center">If level is 'Custom'. Separate values with commas.</small>
+      </div>
+      </div>
+
+      <div class="mb-3">
+        <!-- <label for="checkpoints" class="form-label">Custom Checkpoints (%)</label> -->
+        <div class="input-group">
+        <span class="input-group-text"><i class="fas fa-key"></i></span>
+        <input type="text" class="form-control" id="codes" name="codes" placeholder="OTP EX. 11AB,1212,9090">
+        <small class="text-muted text-center">If level is 'Custom'. Separate values with commas.</small>
+      </div>
+      </div>
+
+      <div class="mb-3">
+        <!-- <label for="checkpoints" class="form-label">Custom Checkpoints (%)</label> -->
+        <div class="input-group">
+        <span class="input-group-text"><i class="fas fa-sms"></i></span>
+        <input type="text" class="form-control" id="otpMsgs" name="otpMsgs" placeholder="OTP msgs EX. C.O.T,C.O.W,C.O.D">
+        <small class="text-muted text-center">If level is 'Custom'. Separate values with commas.</small>
+      </div>
+      </div>
+
+      <div class="mb-3">
+        <!-- <label for="deliveryMode" class="form-label">OTP Delivery</label> -->
+        <div class="input-group">
+        <span class="input-group-text"><i class="fas fa-mobile-alt"></i></span>
+        <select class="form-select" id="deliveryMode" name="deliveryMode">
+          <option value="manual">Manual (Admin Sends Code)</option>
+          <option value="email">Auto (OTP via Email)</option>
+          <option value="sms">Auto (OTP via SMS)</option>
+        </select>
+      </div>
+      </div>
+
+      <div class="d-grid">
+        <button type="submit" class="btn btn-primary">Save Settings</button>
+      </div>
+      <!-- <button class="btn btn-primary w-100" type="submit">Update Account</button> -->
+    </form>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast-container">
+    <div id="loginToast" class="toast align-items-center text-white bg-success border-0" role="alert">
+      <div class="d-flex">
+        <div class="toast-body">Settings!</div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Make .env variables available via middleware in server.js -->
+  <script>
+    const config = {
+      siteUrl: "<%= config.siteUrl %>"
+    };
+  //   console.log("Config in js script from .env = ", config);
+  </script>
+  
+  <script>
+    // Dark mode toggle
+    function toggleTheme() {
+      document.documentElement.classList.toggle("dark-mode");
+    }
+  </script>
+
+  <!--  -->
+  <script>
+    document.getElementById("user").addEventListener("change", async function () {
+      userId = this.value;
+      const accountTypeSelect = document.getElementById("account-type");
+
+      accountTypeSelect.innerHTML = `
+            <option selected disabled value="">Choose account type...</option>
+            `;
+      try {
+        const res = await fetch(`${config.siteUrl}/admin/user-missing-accounts/${userId}`);
+        const data = await res.json();
+
+        data.missingTypes.forEach(type => {
+          const label = type.charAt(0).toUpperCase() + type.slice(1); // Capitalize
+          const opt = document.createElement("option");
+          opt.value = type;
+          opt.textContent = label;
+          accountTypeSelect.appendChild(opt);
+        });
+      } catch (err) {
+        console.error("Error fetching account types:", err);
+      }
+    });
+  </script>
+
+  <!-- Save setting -->
+  <script>
+    document.getElementById("setOtpForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const form = e.target;
+      const userId = document.getElementById("user").value;
+      const formData = new FormData(form);
+      const payload = Object.fromEntries(formData.entries());
+      try {
+        const res = await fetch(`${config.siteUrl}/admin/set-otp?_method=PUT`, {
+          method: "POST",
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        const result = await res.json();
+
+        if (res.ok) {
+          alert(result.message || "Account updated successfully!");
+          window.location.href = `${config.siteUrl}/admin/set-otp`; // Or wherever
+        } else {
+          alert(result.error || "Failed to update account.");
+        }
+      } catch (err) {
+        console.error("Error submitting form:", err);
+        alert("Something went wrong. Please try again.");
+      }
+    });
+  </script>
+
+
+</body>
+
+</html>

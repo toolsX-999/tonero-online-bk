@@ -1,0 +1,197 @@
+/* CSS styles for account-view page */
+body {
+    font-family: 'Poppins', sans-serif;
+    overflow-x: hidden;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+p {
+    margin-bottom: 0px;
+    font-size: 14px;
+    color: #666666;
+    line-height: 30px;
+}
+
+a {
+    text-decoration: none !important;
+}
+
+ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0px;
+}
+
+.content-header {
+    background-color: rgb(145, 7, 7);
+    padding: 10px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* Bank svg logo */
+.logo {
+    height: 40px;
+    margin-right: 10px;
+}
+
+/* Topbar for Locations | Help | Mail | Sign Off */
+.topbar {
+    background-color: #e9ecef;
+    padding: 8px 15px;
+    text-align: right;
+    font-size: 14px;
+}
+
+.topbar a {
+    color: #000;
+    text-decoration: none;
+    margin-left: 10px;
+}
+
+/* Side navbar */
+.sidebar {
+    position: fixed;
+    margin-top: 20px;
+    height: 100vh;
+    background-color: #e9ecef;
+    padding: 10px;
+    overflow-y: auto;
+}
+
+.sidebar a {
+    display: block;
+    padding: 8px;
+    color: #000;
+    text-decoration: none;
+}
+
+.sidebar a.active,
+.sidebar a:hover {
+    background-color: #d1e7dd;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+/* Sidebar for smaller screens */
+@media (max-width: 768px) {
+    .sidebar {
+        min-height: auto;
+    }
+}
+
+/* Offcanvas */
+#overview-view .card {
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+#overview-view .card:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+#overview-view .nav-tabs .nav-link.active {
+    background-color: #d1e7dd;
+    font-weight: bold;
+    border-color: #d1e7dd #d1e7dd #fff;
+}
+
+/* Media query for sidebar nav icons and texts on smaller screens */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .nav-text {
+        display: none !important;
+    }
+
+    .nav-icon {
+        font-size: 1.8rem;
+        display: block;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+
+    .nav-link-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 16px 8px;
+        text-align: center;
+    }
+
+    .nav-link-item+.nav-link-item {
+        margin-top: 20px;
+        /* vertical spacing between links */
+    }
+}
+
+.nav-link-item {
+    display: block;
+    padding: 0.75rem 1rem;
+    color: #333;
+    text-decoration: none;
+    border-bottom: 1px solid #dee2e6; /* Bootstrap-like light gray border */
+    transition: background-color 0.2s ease;
+}
+
+.nav-link-item:hover {
+    background-color: #f8f9fa;
+}
+
+.nav-link-item:last-child {
+    border-bottom: none; /* Remove border from last item */
+}
+
+/* Vertical spacings for sidebar nav items */
+.nav-link-item+.nav-link-item {
+    margin-top: 2px;
+}
+
+.offcanvas {
+    background-color: #f2f4f7;
+    padding: 0;
+}
+
+.offcanvas-body {
+    margin-top: 65px;
+}
+
+.offcanvas-header {
+    background-color: #a4c639;
+}
+
+/* Top sidebar greet-user div */
+.greet-user {
+    height: 110px;
+    margin-bottom: 20px;
+    background-color: #d1e7dd;
+}
+
+/* Transaction History  tables */
+table th {
+    font-weight: 600;
+}
+
+.table td,
+.table th {
+    vertical-align: auto;
+}
+
+/* Info text bottom transfer page */
+.important {
+    font-size: 13px;
+  }
+
+.important a {
+    color: #003366;
+    text-decoration: underline;
+}

@@ -1,0 +1,107 @@
+:root {
+    --offcanvas-width: 270px;
+    --topNavbarHeight: 56px;
+}
+
+/* Page Scrollbar customization for Chrome, Safari, and Edge */
+::-webkit-scrollbar {
+    /* width of the scrollbar */
+    width: 5px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    /* background of the scrollbar track */
+    background: #f1f1f1; 
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    /* color of the scrollbar handle */
+    background: #888; 
+    /* border-radius: 0px; */
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    /* color on hover */
+    background: #555; 
+  }
+/* Page Scrollbar customization for Chrome, Safari, and Edge */
+  
+.side-navbar {
+    width: var(--offcanvas-width) !important;
+}
+
+@media (min-width: 992px) {
+    body {
+        overflow: auto !important;
+    }
+
+    .side-navbar {
+        transform: none !important;
+        visibility: visible !important;
+        top: var(--topNavbarHeight) !important;
+        height: calc(100% - var(--topNavbarHeight)) !important;
+    }
+    .close-canvas {
+        visibility: hidden;
+    }
+
+    main {
+        margin-left: var(--offcanvas-width);
+    }
+
+    /* Content areas for predefined admin dashboard layout (side-navbar links)*/
+    .dashboard-content-area {
+        /* background-color: aqua; */
+        width: (100% - var(--offcanvas-width));
+        margin-left: var(--offcanvas-width);
+    }
+    /* Content areas for predefined dashboard layout */
+}
+
+.offcanvas-container {
+    margin-top: -6px;
+}
+
+.offcanvas.bg-dark .dropdown-divider {
+    border-top: 1px solid rgba(255, 255, 255, 0.2); /* adjust opacity as needed */
+}
+
+.side-navbar-link {
+    display: flex;
+    align-items: center;
+}
+
+/* Push the right-icon-chevron-down icon to the right end */
+.side-navbar-link .right-icon-chevron-down {
+    display: inline-flex;
+    /* Add transition effect to the icon */
+    transition: all ease 0.50s;
+}
+
+.side-navbar-link[aria-expanded="true"] .right-icon-chevron-down {
+    /* Rotate the icon on click */
+    transform: rotate(180deg);
+}
+
+li a {
+    cursor: pointer;
+}
+
+.container .top-cards, .shipment-donurt-pie-section, .shipment-stack {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+}
+
+tr a {
+    text-decoration: none;
+    color: black;
+}
+
+tr a:hover, .action-icons i:hover {
+    text-decoration: underline;
+}
+
+/* Main content */
+.dashboard-content-area {
+    margin-top: 50px;
+    padding: 10px;
+}
