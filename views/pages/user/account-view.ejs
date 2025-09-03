@@ -571,6 +571,10 @@
                                             <option value="flagstar">Flagstar Bank</option>
                                             <option value="comerica">Comerica Bank</option>
                                             <option value="southstate">SouthState Bank</option>
+                                            <option value="southstate">SouthState Bank</option>
+                                            <option value="sparebank1">SpareBank 1</option>
+                                            <option value="dnb">DNB Bank</option>
+                                            <option value="nordea">Nordea Bank</option>
                                         </select>
                                     </div>
 
@@ -1125,12 +1129,33 @@
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item">
                                     <div class="row">
+                                        <div class="col-sm-4 fw-bold text-muted">Account#.:</div>
+                                        <div class="col-sm-8">
+                                            <% user?.accounts?.forEach(account => { %>
+                                            [<%= account?.accountType %>-<%= account?.accountNumber %>]
+                                            <% }) %>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-sm-4 fw-bold text-muted">Routing#.:</div>
+                                        <div class="col-sm-8">
+                                            <% user?.accounts?.forEach(account => { %>
+                                            [<%= account?.accountType %>-<%= account?.routingNumber %>]
+                                            <% }) %>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="row">
                                         <div class="col-sm-4 fw-bold text-muted">Email:</div>
                                         <div class="col-sm-8">
                                             <%= user.email %>
                                         </div>
                                     </div>
                                 </li>
+
                                 <li class="list-group-item">
                                     <div class="row">
                                         <div class="col-sm-4 fw-bold text-muted">Phone:</div>

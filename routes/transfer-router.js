@@ -89,6 +89,8 @@ router.get('/checkpoint', isAuthenticated, async (req, res) => {
     if (!txn.usedCheckpoints.includes(percentNum)) {
       // console.log("OTP is truely required in /checkpoint route");
       // Send email Alert to the users/account owner account for OTP required
+      console.log("In checkpoint route. customer.email = ", customer.email);
+      
       transporter.sendMail({
         from: process.env.EMAIL,
         to: customer.email,
@@ -166,7 +168,7 @@ router.post('/otp/verify', async (req, res) => {
 
 
 router.post("/complete", async (req, res) => {
-  // console.log("in /complete route BE");
+  console.log("in /complete route BE");
   const {transactionId, allOtpsVerification, recipientBank} = req.body;
   if (!transactionId || !allOtpsVerification || !recipientBank) {
     // console.log('Transaction not completed' );
@@ -177,13 +179,15 @@ router.post("/complete", async (req, res) => {
     const transaction = await Transaction.findById(transactionId);
     transaction.status = allOtpsVerification;
     await transaction.save();
-    console.log("Transaction updated in BE /complete route");
+    // console.log("Transaction updated in BE /complete route");
     
     // Update sender account balance
     const senderAccount = await Account.findOne({customerId: transaction.userId});
     senderAccount.balance = parseFloat(senderAccount.balance - transaction.amount).toFixed(2);
     await senderAccount.save();
     const sender = await Customer.findById(transaction.userId);
+    // console.log("Sender in complete route = ", sender);
+    
 
     // console.log("Sender Account updated in BE /complete route");
 
@@ -197,6 +201,7 @@ router.post("/complete", async (req, res) => {
       const recipient = await Customer.findById(recipientId);
       const recipientEmail = recipient.email;
       try {
+        console.log("EliteTrust customer sender email recipientEmail = ", recipientEmail);
         transporter.sendMail({
           from: process.env.EMAIL,
           to: recipientEmail,
@@ -241,12 +246,15 @@ router.post("/complete", async (req, res) => {
         return res.status(200).json({ error: 'Transaction completed' });
 
       } catch (error) {
-        console.log("Error email sending failed: ", error.message);
+        console.log("Error email sending failed in EliteTrust customer: ", error.message);
       }
     }
     // Send Alert to senders email
     // console.log("Transaction updated successfully in /complete route");
+    
     try {
+      // console.log("Non EliteTrust customer sender.email = ", sender.email);
+      
       transporter.sendMail({
         from: process.env.EMAIL,
         to: sender.email, // set this dynamically
@@ -263,7 +271,8 @@ router.post("/complete", async (req, res) => {
             <hr>
             <div style="padding: 16px; background-color: #d4edda; border-left: 5px solid #28a745; border-radius: 4px; margin: 20px 0;">
               <p style="margin: 0; font-size: 15px; color: #155724;">
-                <strong>To:</strong> ${recipient.fullName} (Acc No: ${transaction.toAccount})<br>
+                <strong>Beneficiary Name:</strong> ${sender.fullName}<br>
+                <strong>Beneficiary Acc.:</strong> ${transaction.toAccount}<br>
                 <strong>Status:</strong> ${allOtpsVerification}<br>
                 <strong>Transaction ID:</strong> ${transaction._id}<br>
                 <strong>Amount:</strong> $${transaction.amount.toFixed(2)}<br>
@@ -297,7 +306,7 @@ router.post("/complete", async (req, res) => {
       return res.status(200).json({ error: 'Transaction completed' });
 
     } catch (error) {
-      console.log("Error email sending failed: ", error.message);
+      console.log("Error email sending failed in Non Elite customer catch block: ", error);
     }
     return res.status(200).json({ message: 'Transaction completed' });
   } catch (error) {
